@@ -16,5 +16,5 @@ you can access the app at port 3000 and db at port 3306.
 1. delivering working RESTful API
 2. clean and production code ready (docker multistage build with lean image size)
 3. error handling with .log folder
-4. readme quick start doc with postman doc and its success example
+4. readme quick start doc with postman doc and its success example[postman](https://documenter.getpostman.com/view/12263458/2s9YsGhYtT)
 5. avoid over engineering (tried to implement clean architecture or at least singleton architecture)
