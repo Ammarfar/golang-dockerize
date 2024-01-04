@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: mezink
+    build: .
+    image: mezink:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - .log:/.log
+    env_file:
+      - .env.example
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - mezink
+  db:
+    container_name: mezink_db
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/01.sql
+      - .data/mariadb:/var/lib/mysql
+    networks:
+      - mezink
+    healthcheck:
+      test: mariadb-admin --protocol tcp ping -u root -p${DB_PASSWORD}
+      timeout: 10s
+      retries: 10
+networks:
+  mezink:
+    driver: bridge
